@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- ===== SEO（改标题/描述请同步改 src/data/profile.ts 里的姓名） ===== -->
+    <title>钱谢雨 · 个人主页</title>
+    <meta name="description" content="钱谢雨的个人主页 —— 努力生活学习的大学生。梦寐之地终有一天抵达。项目、技能与联系方式。" />
+    <meta name="author" content="钱谢雨" />
+    <meta name="theme-color" content="#F7F5F0" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#1F2421" media="(prefers-color-scheme: dark)" />
+
+    <!-- Open Graph：分享到社交平台时的卡片信息 -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="钱谢雨 · 个人主页" />
+    <meta property="og:description" content="努力生活学习的大学生。梦寐之地终有一天抵达。" />
+    <meta property="og:locale" content="zh_CN" />
+
+    <link rel="icon" type="image/svg+xml" href="./favicon.svg" />
+
+    <!-- 首屏防闪烁：在渲染前根据 localStorage / 系统偏好应用主题 -->
+    <script>
+      ;(function () {
+        try {
+          var t = localStorage.getItem('theme')
+          var dark = t ? t === 'dark' : window.matchMedia('(prefers-color-scheme: dark)').matches
+          if (dark) document.documentElement.classList.add('dark')
+        } catch (e) {}
+      })()
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="./src/main.tsx"></script>
+  </body>
+</html>

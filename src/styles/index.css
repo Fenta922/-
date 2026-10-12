@@ -1,0 +1,126 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --c-bg: #f7f5f0;
+    --c-card: #ffffff;
+    --c-ink: #26332c;
+    --c-muted: #62726a; /* 由规范色 #6B7A70 微调加深，正文对比度达 WCAG AA */
+    --c-primary: #54755f; /* 由规范色 #5F7F6A 微调加深，作小号文字时达标 */
+    --c-primary-soft: rgba(95, 127, 106, 0.12);
+    --c-primary-strong: #4d6b57; /* 实心按钮底色（白字对比度 5.9:1） */
+    --c-on-primary: #ffffff;
+    --c-accent: #c98b6b;
+    --c-accent-soft: rgba(201, 139, 107, 0.14);
+    --c-line: #e4e0d8;
+    --c-nav: rgba(247, 245, 240, 0.88);
+    --c-overlay: rgba(38, 51, 44, 0.45);
+    --c-error: #b4532a;
+  }
+
+  .dark {
+    --c-bg: #1f2421;
+    --c-card: #2a312c;
+    --c-ink: #edeae3;
+    --c-muted: #a3b0a6;
+    --c-primary: #8fb89a;
+    --c-primary-soft: rgba(143, 184, 154, 0.14);
+    --c-primary-strong: #8fb89a;
+    --c-on-primary: #1f2421;
+    --c-accent: #d9a084;
+    --c-accent-soft: rgba(217, 160, 132, 0.16);
+    --c-line: #3a423b;
+    --c-nav: rgba(31, 36, 33, 0.88);
+    --c-overlay: rgba(15, 18, 16, 0.6);
+    --c-error: #e8926b;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-bg font-sans text-ink antialiased;
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+
+  ::selection {
+    background: var(--c-primary-soft);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--c-primary);
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+
+  /* 锚点定位时给固定导航留出空间 */
+  section {
+    scroll-margin-top: 88px;
+  }
+}
+
+@layer utilities {
+  /* 极轻微的纸纹噪点，不影响阅读 */
+  .paper-grain {
+    position: relative;
+  }
+  .paper-grain::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.42 0 0 0 0 0.45 0 0 0 0 0.41 0 0 0 0.05 0'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  /* 滚动入场：由 Reveal 组件的 IntersectionObserver 添加 is-visible */
+  .reveal {
+    opacity: 0;
+    transform: translateY(18px);
+    transition: opacity 0.55s ease-out, transform 0.55s ease-out;
+  }
+  .reveal.is-visible {
+    opacity: 1;
+    transform: none;
+  }
+
+  /* 项目详情弹窗入场 */
+  .animate-modal {
+    animation: modal-in 0.25s ease-out both;
+  }
+}
+
+@keyframes modal-in {
+  from {
+    opacity: 0;
+    transform: translateY(12px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* 尊重用户的动效偏好：关闭动画与平滑滚动 */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  .reveal {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+  .animate-modal {
+    animation: none !important;
+  }
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
+}
